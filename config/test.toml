@@ -1,0 +1,23 @@
+# Test Environment Configuration
+
+[app]
+env = "test"
+debug = true
+
+[database]
+host = "localhost"
+port = 5432
+name = "app_test"
+debug = false
+
+[redis]
+db = 3
+key_prefix = "test:"
+
+[logger]
+level = "error"
+format = "pretty"
+
+[security]
+jwt_secret = "test-secret-key"
+jwt_expires_in = "1h"
