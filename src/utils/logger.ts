@@ -60,7 +60,7 @@ export class LoggerService {
     this.logger.info(this.formatMessage(message, data));
   }
 
-  public error(message: string, error?: Error | unknown, data?: Record<string, unknown>): void {
+  public error(message: string, error?: Error, data?: Record<string, unknown>): void {
     const errorData: Record<string, unknown> = { ...data };
     if (error instanceof Error) {
       errorData.error = error.message;
@@ -83,7 +83,7 @@ export class LoggerService {
     this.logger.trace(this.formatMessage(message, data));
   }
 
-  public fatal(message: string, error?: Error | unknown, data?: Record<string, unknown>): void {
+  public fatal(message: string, error?: Error, data?: Record<string, unknown>): void {
     const errorData: Record<string, unknown> = { ...data };
     if (error instanceof Error) {
       errorData.error = error.message;
@@ -101,5 +101,5 @@ export class LoggerService {
 
 // Export a default logger instance
 export const logger = LoggerService.getInstance();
-export const createContextLogger = (context: string): LoggerService => 
+export const createContextLogger = (context: string): LoggerService =>
   LoggerService.createContextLogger(context);
