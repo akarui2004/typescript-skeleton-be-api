@@ -25,7 +25,7 @@ export class DatabaseConnection {
     }
 
     const config = getConfig();
-    
+
     const ormConfig: Options<PostgreSqlDriver> = {
       driver: PostgreSqlDriver,
       host: config.database.host,

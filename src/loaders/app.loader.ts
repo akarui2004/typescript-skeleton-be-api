@@ -57,12 +57,12 @@ export class AppLoader {
 
   public initializeRoutes(router: Router): void {
     this.app.use('/api', router);
-    
+
     // Health check endpoint
     this.app.get('/health', async (_req, res) => {
       const dbHealth = await DatabaseConnection.getInstance().healthCheck();
       const redisHealth = RedisConnection.getInstance().healthCheck();
-      
+
       res.status(dbHealth && redisHealth ? 200 : 503).json({
         status: dbHealth && redisHealth ? 'healthy' : 'unhealthy',
         services: {
@@ -85,14 +85,16 @@ export class AppLoader {
   }
 
   public initializeErrorHandling(): void {
-    this.app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-      this.logger.error('Unhandled error', err);
-      
-      res.status(500).json({
-        success: false,
-        error: this.config.app.isProduction ? 'Internal server error' : err.message,
-      });
-    });
+    this.app.use(
+      (err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+        this.logger.error('Unhandled error', err);
+
+        res.status(500).json({
+          success: false,
+          error: this.config.app.isProduction ? 'Internal server error' : err.message,
+        });
+      }
+    );
 
     this.logger.info('Error handling initialized');
   }
