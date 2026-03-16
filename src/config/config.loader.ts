@@ -1,13 +1,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import TOML from 'smol-toml';
+import { getEnvironment } from '../utils/environment';
 import { AppConfig } from './app.config';
 import { DatabaseConfig } from './database.config';
 import { RedisConfig } from './redis.config';
 import { LoggerConfig } from './logger.config';
 import { SecurityConfig } from './security.config';
 
-export type Environment = 'development' | 'staging' | 'production' | 'test';
+// Re-export Environment for external consumers
+export { Environment } from '../utils/environment';
 
 export interface IConfig {
   app: AppConfig;
@@ -34,12 +36,8 @@ export class ConfigLoader {
     return ConfigLoader.instance;
   }
 
-  private getEnvironment(): Environment {
-    return (process.env.NODE_ENV as Environment) || 'development';
-  }
-
   private loadConfig(): IConfig {
-    const env = this.getEnvironment();
+    const env = getEnvironment();
 
     // Load default config first
     const defaultConfig = this.loadTomlFile('default.toml');
